@@ -1,3 +1,4 @@
+
 # AI Learning Workspace: Topic-Centered Study Assistant
 
 ## What it Does
@@ -122,6 +123,16 @@ A third smaller iteration focused on answer quality for list-style questions. Ev
 | B. Structured document-first answer | Force the answer into explicit sections such as "According to the document," "Whether explicitly mentioned," and "Extra context." | Does this lecture explicitly mention ridge regression? | More constrained and document-faithful. It correctly distinguished between content explicitly stated in the lecture and related background knowledge. | Stronger grounding; clearer document-vs-background boundaries; better on boundary questions. | Too rigid and somewhat mechanical; less natural for normal interaction. | Improved faithfulness, but the format felt too templated for regular use. |
 | C. Natural document-first + few-shot guidance | Keep document-first behavior but make output natural. Add few-shot examples for list, numerical fact, and document-boundary questions. | What is the generalization gap in the train/test split example, and how does the lecture interpret it? / What is the optional warning in the one-hot encoding section? | Best overall balance. More grounded than baseline and more natural than the structured version. Numerical and boundary questions improved, though some list questions could still omit one item. | Best tradeoff between naturalness and grounding; stronger factual, numerical, and boundary behavior. | Enumeration robustness is still imperfect; occasional omission remains possible. | Best overall prompt design among the three tested versions. |
 
+### Analyzed model behavior on edge cases or out-of-distribution examples
+We analyzed our system’s behavior on several edge cases that were especially important for a multi-document course RAG setting.
+
+First, we tested document-boundary questions, where the correct behavior was not simply to answer fluently, but to determine whether a concept was actually mentioned in the uploaded lecture. For example, we asked whether a lecture explicitly mentioned ridge regression by name. This type of question was useful because it revealed whether the system could distinguish between document-supported content and related background knowledge. In early versions, the model sometimes relied too much on general ML knowledge; later prompt changes improved its ability to say that a term was not explicitly mentioned while still pointing to related lecture content.
+
+Second, we tested cross-document interference cases after uploading multiple lecture PDFs into the same course workspace. Here, the challenge was whether the system would answer using the correct lecture or mix together semantically related content from different files. This exposed an important failure mode: when topic/session routing was unstable, the system could retrieve from the wrong lecture or return zero candidates and fall back to unsupported generation. By logging retrieved chunks, file names, topic metadata, and fallback behavior, we identified this as a retrieval-scope and routing problem rather than a pure generation problem.
+
+Third, we found that cross-document mixing itself became a recurring edge case, especially when multiple lecture PDFs in the same course contained related machine learning concepts. In these situations, the model could produce answers that were broadly reasonable but not strictly faithful to the current lecture, because it blended evidence from different PDFs. To reduce this failure mode, we moved toward a single-document-first retrieval strategy: the system was encouraged to prioritize evidence from the most relevant PDF before considering broader course-wide retrieval. This change was motivated by the observation that in our setting, a slightly narrower but more document-faithful answer was usually preferable to a more fluent answer that mixed content from multiple lectures.
+
+Overall, these edge-case evaluations helped us understand that the main risks in our system were not only generic answer quality, but also boundary control, cross-document contamination, and incomplete extraction under document-grounded answering. These findings directly informed later improvements such as fallback retrieval, document-first prompting, and few-shot guidance.
 
 ## Evidence Pointers
 - Syllabus parsing (file): `app/api/parse-syllabus/route.ts`
