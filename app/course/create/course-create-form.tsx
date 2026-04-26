@@ -78,12 +78,10 @@ export function CourseCreateForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [courseSearch, setCourseSearch] = useState("");
-  const [savedCourses, setSavedCourses] = useState<CourseWorkspace[]>([]);
-
-  useEffect(() => {
-    if (!sidebarOpen) return;
-    setSavedCourses(loadCourses());
-  }, [sidebarOpen]);
+  const savedCourses = useMemo(
+    () => (sidebarOpen ? loadCourses() : []),
+    [sidebarOpen],
+  );
 
   useEffect(() => {
     if (!sidebarOpen) return;

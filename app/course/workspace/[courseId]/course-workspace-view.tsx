@@ -274,6 +274,14 @@ export function CourseWorkspaceView() {
    */
   const [topicNotesExpanded, setTopicNotesExpanded] = useState(false);
 
+  function resetSessionUiState() {
+    setSelectionCandidate(null);
+    setActiveAnchor(null);
+    setNoteDialog(null);
+    setExpandedNoteIds([]);
+    setTopicNotesExpanded(false);
+  }
+
   useEffect(() => {
     memTrace(
       `course/workspace CourseWorkspaceView useEffect init START [courseId=${courseId}]`,
@@ -284,6 +292,7 @@ export function CourseWorkspaceView() {
       const c = getCourse(courseId);
       setCourse(c ?? null);
       setSelectedSessionId(null);
+      resetSessionUiState();
       setReady(true);
     } finally {
       memTrace(
@@ -363,17 +372,6 @@ export function CourseWorkspaceView() {
   }, [course, selectedSessionId, chatSending]);
 
   useEffect(() => {
-    setSelectionCandidate(null);
-    setActiveAnchor(null);
-    setNoteDialog(null);
-  }, [selectedSessionId]);
-
-  useEffect(() => {
-    setExpandedNoteIds([]);
-    setTopicNotesExpanded(false);
-  }, [selectedSessionId]);
-
-  useEffect(() => {
     const scroller = chatScrollRef.current;
     if (!scroller) return;
     function onScroll() {
@@ -387,10 +385,15 @@ export function CourseWorkspaceView() {
     c.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
-  const topicNoteCards = useMemo(() => {
-    if (!selectedSessionId) return [];
-    return getNoteCardsForTopic(courseId, selectedSessionId);
-  }, [courseId, selectedSessionId, course?.noteCards]);
+  const topicNoteCards = useMemo(
+    () => {
+      if (!selectedSessionId) return [];
+      return getNoteCardsForTopic(courseId, selectedSessionId);
+    },
+    // getNoteCardsForTopic reads from storage; `course?.noteCards` is the refresh signal after CRUD.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [courseId, selectedSessionId, course?.noteCards],
+  );
 
   async function onUploadMaterial(f: File | null) {
     if (!f || !f.name.toLowerCase().endsWith(".pdf")) return;
@@ -492,11 +495,13 @@ export function CourseWorkspaceView() {
     const next = getCourse(courseId);
     setCourse(next ?? null);
     if (selectedSessionId === targetId) {
+      resetSessionUiState();
       setSelectedSessionId(next?.sessions[0]?.id ?? null);
     }
   }
 
   function backToTopicOverview() {
+    resetSessionUiState();
     setSelectedSessionId(null);
   }
 
@@ -506,6 +511,7 @@ export function CourseWorkspaceView() {
       selectedSessionId: sessionId,
       selectedTopic: sessionName,
     });
+    resetSessionUiState();
     setSelectedSessionId(sessionId);
   }
 
@@ -861,6 +867,7 @@ export function CourseWorkspaceView() {
     setNewConvName("");
     setPlusOpen(false);
     if (s) {
+      resetSessionUiState();
       setSelectedSessionId(s.id);
       setCourse(getCourse(courseId) ?? null);
       setCourses(loadCourses());

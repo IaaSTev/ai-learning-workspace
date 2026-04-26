@@ -164,10 +164,13 @@ function normalizeCourse(raw: CourseWorkspace): CourseWorkspace {
   const noteCards = migrateLegacyNotesToCards(raw);
 
   const sessions = raw.sessions.map((s) => {
-    const { note: _n, notes: _ns, ...rest } = s as ChatSession & {
+    // Strip legacy per-session note fields; migrated into noteCards elsewhere.
+    const { note, notes, ...rest } = s as ChatSession & {
       note?: unknown;
       notes?: unknown;
     };
+    void note;
+    void notes;
     return {
       ...rest,
       topicSlug:

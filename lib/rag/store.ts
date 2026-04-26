@@ -10,7 +10,7 @@ import type {
   RagManifestV1,
   RagSourceType,
 } from "./types";
-import { emptyManifest, topicToSlug } from "./shard-layout";
+import { topicToSlug } from "./shard-layout";
 
 function dataDir(): string {
   const fromEnv = process.env.RAG_DATA_DIR?.trim();
@@ -406,5 +406,6 @@ export async function loadCourseIndex(
 
 /** @deprecated Legacy JSON write — no-op with SQLite. */
 export async function saveCourseIndex(_index: RagCourseIndex): Promise<void> {
+  void _index;
   console.warn("[rag/store] saveCourseIndex is deprecated with SQLite; ignored.");
 }

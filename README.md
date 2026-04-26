@@ -1,4 +1,3 @@
-
 # AI Learning Workspace: Topic-Centered Study Assistant
 
 ## What it Does
@@ -134,6 +133,7 @@ Third, we found that cross-document mixing itself became a recurring edge case, 
 
 Overall, these edge-case evaluations helped us understand that the main risks in our system were not only generic answer quality, but also boundary control, cross-document contamination, and incomplete extraction under document-grounded answering. These findings directly informed later improvements such as fallback retrieval, document-first prompting, and few-shot guidance.
 
+
 ## Evidence Pointers
 - Syllabus parsing (file): `app/api/parse-syllabus/route.ts`
 - Syllabus parsing (URL): `app/api/parse-syllabus-url/route.ts`
@@ -147,26 +147,16 @@ Overall, these edge-case evaluations helped us understand that the main risks in
 - Embeddings: `lib/rag/embeddings.ts`
 - Retrieval: `lib/rag/retrieve.ts`
 - Attribution: `ATTRIBUTION.md`
-- Setup instructions: `README.md` `README.md` (Quick Start)
+- Setup instructions: `SETUP.md` (primary), `README.md` → **Quick Start**
 
 ## Quick Start
 ```bash
-git clone https://github.com/IaaSTev/ai-learning-workspace.git
-cd ai-learning-workspace
+git clone <repo-url>
+cd study-agent-mvp
 npm install
 ```
 
-Then:
-
-```bash
-cp .env.example .env.local
-```
-
-If `.env.example` is unavailable in your environment:
-
-```bash
-touch .env.local
-```
+This repository does not include `.env.example`. Create a `.env.local` file in the project root (or follow the full steps in `SETUP.md`).
 
 Set this in `.env.local`:
 
@@ -191,10 +181,10 @@ Open:
 - Demo video: https://youtu.be/Qdhx_VNoCgg?si=V7gECB-7s7U1uilz
 - Technical walkthrough: https://youtu.be/qiU5bcOtciM?si=Nduf47kOo06Rmomc
 
-The demo video shows the end-user workflow for a non-specialist audience without showing code. The technical walkthrough explains the code structure, ML techniques, and key technical contributions.
+The demo video is intended for a non-specialist audience and should focus on end-user workflow. The technical walkthrough should explain code structure, ML techniques, and key technical contributions.
 
 ## AI Tool Attribution
-AI tools were used for drafting, refactoring suggestions, debugging support, and documentation assistance. All AI-generated or AI-suggested code was reviewed, modified, and tested by the project author.
+AI tools were used for drafting, refactoring suggestions, debugging support, and documentation assistance. All AI-generated or AI-suggested code was reviewed, modified, and tested by the project authors.
 
 See: `ATTRIBUTION.md`
 

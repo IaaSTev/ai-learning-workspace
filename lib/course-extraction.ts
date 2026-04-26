@@ -413,7 +413,7 @@ export async function extractCourseFromPlainText(
     };
   }
 
-  let parsed = safeParseTopicsJson(content);
+  const parsed = safeParseTopicsJson(content);
   if (!parsed) {
     console.error(`${log} Failed to parse model JSON:`, content);
     return {
