@@ -8,8 +8,8 @@
 
 ## 1. Clone the repository
 ```bash
-git clone <repo-url>
-cd study-agent-mvp
+git clone https://github.com/IaaSTev/ai-learning-workspace.git
+cd ai-learning-workspace
 ```
 
 ## 2. Install dependencies
@@ -35,7 +35,7 @@ npm run dev
 
 Then open:
 
-`http://localhost:3000`
+`http://localhost:3000/course/create`
 
 ## 5. Build check
 ```bash
