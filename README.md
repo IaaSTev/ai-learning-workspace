@@ -136,12 +136,12 @@ A third smaller iteration focused on answer quality for list-style questions. Ev
 - Embeddings: `lib/rag/embeddings.ts`
 - Retrieval: `lib/rag/retrieve.ts`
 - Attribution: `ATTRIBUTION.md`
-- Setup instructions: `README.md` (Quick Start)
+- Setup instructions: `README.md` `README.md` (Quick Start)
 
 ## Quick Start
 ```bash
-git clone <repo-url>
-cd study-agent-mvp
+git clone https://github.com/IaaSTev/ai-learning-workspace.git
+cd ai-learning-workspace
 npm install
 ```
 
@@ -177,13 +177,13 @@ Open:
 - `OPENAI_API_KEY` (required): used for LLM calls and embeddings in syllabus parsing, chat, retrieval, and note generation.
 
 ## Video Links
-- Demo video: https://youtu.be/qiU5bcOtciM?si=_TaPyAlsX_gMY7Q4
+- Demo video: https://youtu.be/Qdhx_VNoCgg?si=V7gECB-7s7U1uilz
 - Technical walkthrough: https://youtu.be/qiU5bcOtciM?si=Nduf47kOo06Rmomc
 
-The demo video is intended for a non-specialist audience and should focus on end-user workflow. The technical walkthrough should explain code structure, ML techniques, and key technical contributions.
+The demo video shows the end-user workflow for a non-specialist audience without showing code. The technical walkthrough explains the code structure, ML techniques, and key technical contributions.
 
 ## AI Tool Attribution
-AI tools were used for drafting, refactoring suggestions, debugging support, and documentation assistance. All AI-generated or AI-suggested code was reviewed, modified, and tested by the project authors.
+AI tools were used for drafting, refactoring suggestions, debugging support, and documentation assistance. All AI-generated or AI-suggested code was reviewed, modified, and tested by the project author.
 
 See: `ATTRIBUTION.md`
 
