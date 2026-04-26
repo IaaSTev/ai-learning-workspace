@@ -151,7 +151,7 @@ Overall, these edge-case evaluations helped us understand that the main risks in
 
 ## Quick Start
 ```bash
-git clone <repo-url>
+git clone https://github.com/IaaSTev/ai-learning-workspace.git
 cd study-agent-mvp
 npm install
 ```
